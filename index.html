@@ -1,99 +1,1178 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Metal Roof Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background: #f5f5f5;
-        }
+<!doctype html>  
+<html lang="en">  
+<head>  
+  <meta charset="utf-8" />  
+  <meta name="viewport" content="width=device-width,initial-scale=1" />  
+  <title>Metal Roof Cal Pro – Gold Edition</title>  
+  
+  <script src="https://cdn.tailwindcss.com"></script>  
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600;700&family=Oswald:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Black+Ops+One&display=swap"
+    rel="stylesheet"
+  />
 
-        h1 {
-            text-align: center;
-        }
+  <style>  
+    /* =========================================  
+       1. VISUAL ENGINE (LOCKED LOOK)
+       ========================================= */  
+    :root {  
+      --brand-green: #63A331;  
+      --brand-gold: #facc15;  
+      --brand-bg: #020617;  
+      --brand-card: #020617;  
+      --text-primary: #f9fafb;  
+      --text-muted: #94a3b8;
+      --company-font: "Inter";
+    }  
+  
+    body {  
+      margin: 0;  
+      font-family: "Inter", system-ui, sans-serif;  
+      background: radial-gradient(circle at top, rgba(99, 163, 49, 0.16), var(--brand-bg) 55%, #000000 100%);  
+      color: var(--text-primary);  
+      min-height: 100vh;  
+    }  
+  
+    .app-header {  
+      background: radial-gradient(circle at top, rgba(99, 163, 49, 0.3), var(--brand-bg) 50%, #000 100%);  
+      border-bottom: 1px solid rgba(148, 163, 184, 0.4);  
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.9);  
+      position: relative;  
+      z-index: 50;  
+    }  
+  
+    .glow-title {  
+      text-shadow: 0 0 25px rgba(99, 163, 49, 0.9), 0 0 60px rgba(99, 163, 49, 0.8);  
+    }  
+  
+    .pill-dot {  
+      width: 0.35rem;  
+      height: 0.35rem;  
+      border-radius: 999px;  
+      background: #4ade80;  
+      box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.7);  
+      display: inline-block;  
+    }  
+  
+    /* GOLD PILL (Standard) */
+    .pill-soft-gold {  
+      border-radius: 999px;  
+      padding: 0.15rem 0.6rem;  
+      background: radial-gradient(circle at top left, var(--brand-gold), #92400e);  
+      color: #fef9c3;  
+      font-size: 0.65rem;  
+      text-transform: uppercase;  
+      letter-spacing: 0.12em;  
+      border: 1px solid rgba(250, 204, 21, 0.9);  
+      box-shadow: 0 0 0 1px rgba(69, 26, 3, 0.9);  
+    }
 
-        .container {
-            max-width: 500px;
-            background: white;
-            padding: 20px;
-            margin: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
+    /* STORAGE BUTTON (Dynamic Colors) */
+    .pill-storage {
+      border-radius: 999px;
+      padding: 0.3rem 0.1rem;
+      font-size: 0.55rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: 1px solid;
+      cursor: pointer;
+      min-width: 110px;
+      text-align: center;
+      transition: all 0.2s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+    .pill-storage.local {
+      background: radial-gradient(circle at top left, var(--brand-gold), #92400e);
+      color: #020617;
+      border-color: #facc15;
+    }
+    .pill-storage.cloud {
+      background: radial-gradient(circle at top left, #4ade80, #166534);
+      color: #022c22;
+      border-color: #4ade80;
+      box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+    }
+  
+    .pill-soft {  
+      border-radius: 999px;  
+      padding: 0.15rem 0.6rem;  
+      background: radial-gradient(circle at top left, #020617, #020617 60%, #000);  
+      color: #94a3b8;  
+      font-size: 0.65rem;  
+      text-transform: uppercase;  
+      letter-spacing: 0.12em;  
+      border: 1px solid rgba(148, 163, 184, 0.7);  
+    }  
+  
+    .card {  
+      border-radius: 1rem;  
+      border: 1px solid rgba(148, 163, 184, 0.4);  
+      background:  
+        radial-gradient(circle at top left, rgba(99, 163, 49, 0.2), transparent 55%),  
+        radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.96), var(--brand-card));  
+      box-shadow: 0 30px 80px rgba(15, 23, 42, 0.95), 0 0 0 1px rgba(15, 23, 42, 0.9);  
+    }  
+  
+    .card-subtle {  
+      border-radius: 0.9rem;  
+      border: 1px solid rgba(51, 65, 85, 0.9);  
+      background: radial-gradient(circle at top, #020617, #020617 60%, #000 100%);  
+    }  
+  
+    .btn-soft {  
+      border-radius: 999px;  
+      padding: 0.4rem 0.9rem;  
+      font-size: 0.75rem;  
+      border: 1px solid rgba(148, 163, 184, 0.7);  
+      background: radial-gradient(circle at top left, #020617, #020617 60%, #000);  
+      color: #e5e7eb;  
+      cursor: pointer;  
+      display: inline-flex;  
+      align-items: center;  
+      justify-content: center;  
+      transition: all 0.2s;  
+    }  
+    .btn-soft.green {  
+      border: 1px solid rgba(34, 197, 94, 0.7);  
+      color: #bbf7d0;  
+      background: radial-gradient(circle at top left, #166534, #020617);  
+    }  
+  
+    .btn-gold {  
+      border-radius: 999px;  
+      padding: 0.5rem 1rem;  
+      font-weight: 700;  
+      font-size: 0.8rem;  
+      color: #020617;  
+      background: linear-gradient(180deg, #fff3a0, #facc15);  
+      border: 1px solid #facc15;  
+      width: 100%;  
+      cursor: pointer;  
+      box-shadow: 0 4px 12px rgba(250, 204, 21, 0.3);  
+    }  
 
-        label {
-            font-weight: bold;
-            display: block;
-            margin-top: 10px;
-        }
+    .green-input {  
+      width: 100%;  
+      background: rgba(255,255,255,0.06);  
+      border: 1px solid rgba(148, 163, 184, 0.3);  
+      border-radius: 0.6rem;  
+      padding: 0.6rem 0.8rem;  
+      color: #fff;  
+      outline: none;  
+      font-size: 0.85rem;  
+    }  
+    .green-input:focus {  
+      border-color: var(--brand-green);  
+      box-shadow: 0 0 0 2px rgba(99, 163, 49, 0.2);  
+    }  
 
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-        }
+    .section-label {  
+      font-size: 0.7rem;  
+      letter-spacing: 0.14em;  
+      text-transform: uppercase;  
+      color: #94a3b8;  
+      font-weight: 500;  
+    }  
+    .section-title {  
+      font-size: 0.95rem;  
+      font-weight: 600;  
+      color: #e5e7eb;  
+    }  
+    .metric-value {  
+      font-size: 1.4rem;  
+      font-weight: 700;  
+      letter-spacing: 0.02em;  
+    }  
+    .metric-chip {  
+      font-size: 0.7rem;  
+      border-radius: 999px;  
+      border: 1px solid rgba(132, 204, 22, 0.7);  
+      background: radial-gradient(circle at top left, #166534, #022c22);  
+      color: #bbf7d0;  
+      padding: 0.1rem 0.45rem;  
+      display: inline-flex;  
+      align-items: center;  
+      gap: 0.25rem;  
+    }  
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #007bff;
-            color: white;
-            border: none;
-            margin-top: 15px;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+    .menu-overlay {  
+      position: fixed;  
+      inset: 0;  
+      background: rgba(0,0,0,0.85);  
+      backdrop-filter: blur(5px);  
+      z-index: 100;  
+      display: flex;  
+      align-items: center;  
+      justify-content: center;  
+    }  
 
-        button:hover {
-            background: #005fcc;
-        }
+    .menu-link {  
+      width: 100%;  
+      text-align: left;  
+      padding: 0.8rem 1rem;  
+      border-radius: 0.5rem;  
+      background: rgba(255,255,255,0.06);  
+      border: 1px solid rgba(255,255,255,0.1);  
+      color: white;  
+      margin-bottom: 0.5rem;  
+      cursor: pointer;
+      display: block;
+      white-space: nowrap;
+    }  
+    .menu-link:hover {  
+      border-color: var(--brand-green);  
+      background: rgba(99, 163, 49, 0.1);  
+    }  
 
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
-            text-align: center;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    <h1>Metal Roof Calculator</h1>
+    .divider {  
+      height: 1px;  
+      background: rgba(148, 163, 184, 0.2);  
+      margin: 1rem 0;  
+    }  
 
-    <div class="container">
-        <label for="length">Roof Length (ft)</label>
-        <input type="number" id="length" placeholder="Enter length">
+    .hidden { display: none !important; }  
 
-        <label for="width">Roof Width (ft)</label>
-        <input type="number" id="width" placeholder="Enter width">
+    #headerCompanyName{
+      font-family: var(--company-font), "Inter", system-ui, sans-serif;
+    }
 
-        <label for="waste">Waste Percentage (%)</label>
-        <input type="number" id="waste" value="10">
+    .logo-img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 1rem;
+    }
 
-        <button onclick="calculate()">Calculate</button>
+    /* TABS */
+    .tab-group {
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.05);
+      padding: 0.25rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .tab-btn {
+      flex: 1;
+      text-align: center;
+      padding: 0.4rem;
+      border-radius: 999px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #94a3b8;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--brand-green);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
 
-        <div class="result" id="result"></div>
+    /* TOGGLE BUTTONS (Ventilation) */
+    .toggle-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .toggle-btn {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      border-radius: 0.5rem;
+      background: transparent;
+      color: #94a3b8;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+    }
+    .toggle-btn.active {
+      background: var(--brand-green);
+      color: #fff;
+      border-color: var(--brand-green);
+    }
+
+    /* SUMMARY ROW METRICS */
+    .summary-metric {
+      background: rgba(255,255,255,0.05);
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* NEW: DOCUMENT TABLE STYLES (Estimates/Invoices) */
+    .doc-container {
+      background: white;
+      color: #0f172a; /* Slate 900 for print readability on white */
+      border-radius: 0.5rem;
+      overflow: hidden;
+      font-family: 'Roboto', sans-serif;
+    }
+    /* Dark mode override for screen */
+    .doc-container.dark-mode {
+      background: #020617;
+      color: #f8fafc;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+    }
+    .doc-table th {
+      text-align: left;
+      padding: 0.5rem;
+      border-bottom: 1px solid rgba(148,163,184,0.2);
+      color: #64748b;
+      text-transform: uppercase;
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+    }
+    .doc-table td {
+      padding: 0.6rem 0.5rem;
+      border-bottom: 1px solid rgba(148,163,184,0.1);
+    }
+    .doc-table tr:last-child td { border-bottom: none; }
+    .doc-total-row {
+      background: rgba(99, 163, 49, 0.1);
+      font-weight: 700;
+    }
+  </style>  
+</head>  
+<body class="min-h-screen text-slate-100">  
+  
+  <header class="app-header pb-4">  
+    <div class="max-w-6xl mx-auto px-4 pt-3 lg:pt-5">  
+      <div class="flex flex-col gap-4">  
+          
+        <div class="flex items-center justify-between gap-3">  
+          <div class="flex items-center gap-3">  
+            <div id="headerLogoBox" class="h-10 w-10 rounded-2xl border border-lime-400/70 bg-gradient-to-br from-lime-500 via-emerald-500 to-slate-900 shadow-lg shadow-lime-500/60 flex items-center justify-center overflow-hidden">  
+              <span id="headerLogoText" class="text-xl font-black tracking-tight text-slate-950">S</span>  
+              <img id="headerLogoImg" class="logo-img hidden" alt="Company Logo" />
+            </div>  
+            <div>  
+              <div class="inline-flex items-center gap-2 rounded-full border border-lime-300/60 bg-slate-900/70 px-3 py-1 shadow-sm shadow-lime-500/40">  
+                <span class="pill-dot"></span>  
+                <span id="headerCompanyName" class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-lime-100">  
+                  Solid Metal Roofing  
+                </span>  
+              </div>  
+              <div class="mt-1 flex items-center gap-2">  
+                <h1 class="text-xs sm:text-sm font-semibold uppercase tracking-[0.18em] text-lime-100/90 glow-title">  
+                  METAL ROOF CAL PRO  
+                </h1>  
+                <span class="pill-soft-gold text-[0.6rem]">GOLD</span>  
+              </div>  
+            </div>  
+          </div>  
+          <button id="openMenuBtn" class="w-9 h-9 rounded-full border border-slate-600 bg-slate-900 flex items-center justify-center text-slate-200 hover:border-lime-400 transition-colors">  
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">  
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />  
+             </svg>  
+          </button>  
+        </div>  
+        <div class="flex items-center justify-between mt-1">  
+          <button id="storageToggleBtn" class="pill-storage local hover:scale-105 active:scale-95">  
+             <span id="storageText">LOCAL STORAGE</span>  
+          </button>
+          <button class="btn-soft green" data-page="projects">  
+            <span class="text-[0.7rem] tracking-[0.15em] uppercase">  
+              View Saved Files  
+            </span>  
+          </button>  
+        </div>  
+      </div>  
+    </div>  
+  </header>  
+  
+  <main class="max-w-6xl mx-auto px-4 pb-8 pt-6">  
+  
+    <div id="mobileMenu" class="menu-overlay hidden">  
+      <div class="card w-full max-w-sm m-4 p-6 relative">  
+        <h2 class="section-title mb-4">Menu</h2>  
+        <button class="menu-link" data-page="dashboard">Home Dashboard</button>  
+        <button class="menu-link" data-page="calculator">Calculator Engine</button>  
+        <button class="menu-link" data-page="orderlist">Order List</button>  
+        <button class="menu-link" data-page="theme">🎨 App Theme</button>  
+        <button class="menu-link" data-page="projects">📂 Project Files</button>  
+        <button class="menu-link" data-page="clients">Clients</button>  
+        <button class="menu-link" data-page="admin">Admin 🔒</button>  
+        <button class="menu-link" data-page="help">Help</button>  
+        <button id="closeMenuBtn" class="btn-soft w-full mt-4 justify-center">Close Menu</button>  
+      </div>  
     </div>
 
-    <script>
-        function calculate() {
-            const length = parseFloat(document.getElementById('length').value);
-            const width = parseFloat(document.getElementById('width').value);
-            const waste = parseFloat(document.getElementById('waste').value);
+    <section id="dashboard" class="page-section">  
+      <div class="text-center mb-6">  
+        <span class="pill-soft-gold text-base glow-title px-4 py-1">HOME DASHBOARD</span>  
+      </div>  
+      <div class="card p-4 sm:p-5">  
+        <div class="flex items-center justify-between gap-3 mb-4">  
+          <div>  
+            <div class="section-label">Business Overview</div>  
+            <div class="flex items-center gap-2">  
+              <h2 class="section-title text-lg">Command Center</h2>  
+              <span class="pill-soft">LIVE</span>  
+            </div>  
+          </div>  
+        </div>  
 
-            if (!length || !width) {
-                document.getElementById('result').innerText = "Please enter valid numbers.";
-                return;
-            }
+        <div class="grid grid-cols-3 gap-3 mb-4">
+          <div class="card-subtle p-3 text-center border border-lime-500/20">
+            <div class="text-[0.6rem] text-slate-400 uppercase tracking-widest mb-1">Jobs Done</div>
+            <div class="text-2xl font-black text-white">0</div>
+            <div class="text-[0.5rem] text-lime-400 uppercase mt-1">Year to Date</div>
+          </div>
+          <div class="card-subtle p-3 text-center border border-lime-500/20">
+            <div class="text-[0.6rem] text-slate-400 uppercase tracking-widest mb-1">Invoices</div>
+            <div class="text-2xl font-black text-white">0</div>
+            <div class="text-[0.5rem] text-lime-400 uppercase mt-1">Generated</div>
+          </div>
+          <div class="card-subtle p-3 text-center border border-lime-500/20">
+            <div class="text-[0.6rem] text-slate-400 uppercase tracking-widest mb-1">Estimates</div>
+            <div class="text-2xl font-black text-white">0</div>
+            <div class="text-[0.5rem] text-lime-400 uppercase mt-1">Generated</div>
+          </div>
+        </div>
 
-            const area = length * width;
-            const total = area + (area * (waste / 100));
+        <div class="section-label mb-2">Current Job Status</div>
+        <div class="grid gap-3">  
+          <div class="card-subtle p-4 flex flex-col gap-2">  
+            <div class="flex items-center justify-between">  
+              <span class="text-slate-400 text-xs">Total Roof Area</span>  
+              <span class="pill-soft text-[0.6rem]">SQ. FT.</span>  
+            </div>  
+            <div class="flex items-end justify-between mt-1">  
+              <div>  
+                <div class="metric-value text-lime-200 text-3xl">0</div>  
+                <div class="text-[0.7rem] text-slate-500 mt-1">Across all areas</div>  
+              </div>  
+              <div class="metric-chip"><span>Live 0 areas</span></div>  
+            </div>  
+          </div>  
+          <div class="card-subtle p-4 flex flex-col gap-2">  
+            <div class="flex items-center justify-between">  
+              <span class="text-slate-400 text-xs">Active Estimate</span>  
+              <span class="pill-soft text-[0.6rem]">STATUS</span>  
+            </div>  
+            <div class="text-lime-200 text-2xl font-bold mt-1">Draft</div>  
+            <div class="text-[0.7rem] text-slate-500">Autosaving enabled</div>  
+          </div>  
+          <div class="grid grid-cols-2 gap-3 mt-2">  
+            <button class="btn-gold justify-center" data-page="calculator">OPEN CALCULATOR</button>  
+            <button class="btn-soft justify-center" data-page="orderlist">Order List</button>  
+          </div>  
+        </div>  
+      </div>  
+    </section>
+    <section id="calculator" class="page-section hidden">  
+      <div class="text-center mb-6">  
+        <span class="pill-soft-gold text-base glow-title px-4 py-1">CALCULATOR ENGINE</span>  
+      </div>  
+      <div class="card p-4 sm:p-5 space-y-6">  
+        <div class="card-subtle p-4 border-l-4 border-l-lime-500">
+          <div class="section-label text-lime-400 mb-2">Client & Roof Areas</div>
+          <div class="space-y-4">
+             <div class="space-y-1"><label class="section-label">Client</label><select class="green-input"><option>-- Select Client --</option><option>Jake - 2025-11-27</option><option>New Client +</option></select></div>
+             <div class="border border-lime-500/30 rounded-lg p-3 bg-lime-900/10"><h3 class="text-lg font-bold text-lime-100 mb-3">Area 1</h3><div class="grid grid-cols-2 gap-3 mb-3"><div class="space-y-1"><label class="section-label">Roof Type</label><select class="green-input"><option>Gable (two-sided)</option><option>Shed</option><option>Hip</option></select></div><div class="space-y-1"><label class="section-label">Pitch</label><select class="green-input"><option>6/12</option><option>4/12</option><option>8/12</option></select></div></div><div class="grid grid-cols-2 gap-3 mb-3"><div class="space-y-1"><label class="section-label">Length (ft)</label><input type="number" class="green-input" value="40"></div><div class="space-y-1"><label class="section-label">Slope (ft)</label><input type="number" class="green-input" value="24"></div></div><div class="grid grid-cols-2 gap-3 mb-3"><div class="space-y-1"><label class="section-label">Panel Type</label><select class="green-input"><option>Standing Seam</option><option>Pro-Rib</option></select></div><div class="space-y-1"><label class="section-label">Gauge</label><select class="green-input"><option>29ga</option><option>26ga</option></select></div></div><div class="grid grid-cols-2 gap-3 mb-3"><div class="space-y-1"><label class="section-label">Panel Color</label><select class="green-input"><option>Galvalume</option><option>Black</option><option>Charcoal</option></select></div><div class="space-y-1"><label class="section-label">Trim Color</label><select class="green-input"><option>Galvalume</option><option>Black</option><option>Match Panel</option></select></div></div><div class="text-xs text-slate-400 mt-2 italic">Add area 2+ to copy Area 1 defaults.</div></div>
+             <button class="btn-soft w-full justify-center border-dashed border-lime-500/50 text-lime-200 hover:bg-lime-900/20">+ ADD ROOF AREA (copies Area 1)</button>
+          </div>
+        </div>
+        <div class="card-subtle p-4 border-l-4 border-l-lime-500">
+          <div class="section-label text-lime-400 mb-2">Panel & Underlayment</div>
+          <div class="grid grid-cols-2 gap-3 mb-4"><div class="space-y-1"><label class="section-label">Gauge (Global)</label><select class="green-input"><option>29ga</option></select></div><div class="space-y-1"><label class="section-label">Width (ft)</label><input type="number" class="green-input" value="3.00"></div><div class="space-y-1"><label class="section-label">IWS %</label><input type="number" class="green-input" value="20"></div><div class="space-y-1"><label class="section-label">Waste %</label><input type="number" class="green-input" value="0"></div></div>
+          <div class="bg-white/5 rounded-lg p-3 mb-4"><div class="flex items-center justify-between"><div class="flex items-center gap-3"><input type="checkbox" checked class="w-5 h-5 accent-lime-500 rounded"><div class="text-sm"><div class="text-white font-bold">Area 1 (Gable)</div><div class="text-slate-400 text-xs">Standing Seam 29ga</div></div></div><div class="text-right"><div class="text-lg font-bold text-white">80</div><div class="text-xs text-slate-400">sheets @ 24' 1"</div></div></div></div>
+          <div class="grid grid-cols-5 gap-1 text-center"><div class="summary-metric"><div class="text-[0.6rem] text-slate-400 uppercase">SqFt</div><div class="text-sm font-bold text-lime-400">1920</div></div><div class="summary-metric"><div class="text-[0.6rem] text-slate-400 uppercase">UL</div><div class="text-xs font-bold">504 LF</div></div><div class="summary-metric"><div class="text-[0.6rem] text-slate-400 uppercase">IWS</div><div class="text-xs font-bold">61 LF</div></div><div class="summary-metric"><div class="text-[0.6rem] text-slate-400 uppercase">Strap</div><div class="text-xs font-bold">63 pcs</div></div><div class="summary-metric"><div class="text-[0.6rem] text-slate-400 uppercase">Screw</div><div class="text-xs font-bold">4789</div></div></div>
+        </div>
+        <div class="card-subtle p-4 border-l-4 border-l-lime-500"><div class="section-label text-lime-400 mb-2">Unified Roof Visualizer</div><div class="aspect-video bg-slate-900 rounded border border-slate-700 flex items-center justify-center relative overflow-hidden"><div class="absolute inset-0 bg-[radial-gradient(#ffffff05_1px,transparent_1px)] [background-size:16px_16px]"></div><div class="w-32 h-20 bg-blue-400/80 border-2 border-white/20 flex items-center justify-center text-[0.6rem] text-white text-center shadow-2xl">Area 1<br>40x24</div></div><div class="text-center text-xs text-slate-500 mt-2">2D Preview (Not to scale)</div></div>
+        <div class="card-subtle p-4 border-l-4 border-l-lime-500">
+          <div class="section-label text-lime-400 mb-2">Trim & Accessories</div>
+          <div class="grid grid-cols-2 gap-3 mb-4"><div class="space-y-1"><label class="section-label">Eave (pcs)</label><input type="number" class="green-input" value="9"></div><div class="space-y-1"><label class="section-label">Gable (pcs)</label><input type="number" class="green-input" value="11"></div><div class="space-y-1"><label class="section-label">Ridge (pcs)</label><input type="number" class="green-input" value="5"></div><div class="space-y-1"><label class="section-label">Valley (pcs)</label><input type="number" class="green-input" value="0"></div></div>
+          <div class="space-y-2 mb-4"><label class="section-label">Ventilation Type</label><div class="toggle-group"><button class="toggle-btn active">None</button><button class="toggle-btn">Box</button><button class="toggle-btn">Ridge</button><button class="toggle-btn">Turbine</button></div></div>
+          <div class="grid grid-cols-2 gap-3 mb-4"><div class="space-y-1"><label class="section-label">EndWall (pcs)</label><input type="number" class="green-input" value="0"></div><div class="space-y-1"><label class="section-label">SideWall (pcs)</label><input type="number" class="green-input" value="0"></div><div class="space-y-1"><label class="section-label">Snow (pcs)</label><input type="number" class="green-input" value="0"></div><div class="space-y-1"><label class="section-label">Nails (box)</label><input type="number" class="green-input" value="0"></div><div class="space-y-1"><label class="section-label">Pipe (ea)</label><input type="number" class="green-input" value="0"></div><div class="space-y-1"><label class="section-label">Chimney (ea)</label><input type="number" class="green-input" value="0"></div></div>
+          <div class="space-y-1 mb-4"><label class="section-label">Silicone (tube)</label><input type="number" class="green-input" value="0"></div>
+          <div class="text-xs text-slate-500 italic leading-relaxed">All trim fields auto-fill from roof areas (once logic is active). Type any value to override.</div>
+        </div>
+        <div class="card-subtle p-4 border-t border-slate-700 mt-4">
+          <h3 class="section-title text-lime-400 mb-3">Project Summary</h3>
+          <div class="space-y-2 mb-4"><div class="flex justify-between text-sm"><span class="text-slate-400">Labor</span><span class="text-white font-mono">$9,600.00</span></div><div class="flex justify-between text-sm"><span class="text-slate-400">Material</span><span class="text-white font-mono">$5,992.07</span></div><div class="flex justify-between text-sm"><span class="text-slate-400">Extras</span><span class="text-white font-mono">$0.00</span></div><div class="divider my-2"></div><div class="flex justify-between items-end"><span class="text-lg font-bold text-lime-200">Total</span><span class="text-2xl font-black text-white tracking-wide">$16,371.68</span></div></div>
+          <div class="space-y-3"><button class="btn-soft green w-full justify-center font-bold text-sm h-10" data-page="projects">VIEW ESTIMATE</button><button class="btn-gold w-full justify-center font-bold text-sm h-10" data-page="orderlist">ORDER LIST</button><button class="btn-soft w-full justify-center text-slate-300 gap-2 h-10">SHARE</button></div>
+        </div>
+      </div>  
+    </section>  
+  
+    <section id="orderlist" class="page-section hidden">  
+      <div class="text-center mb-6">  
+        <span class="pill-soft-gold text-base glow-title px-4 py-1">ORDER LIST</span>  
+      </div>  
+      <div class="card p-5 space-y-6">  
+        <div class="card-subtle p-4">  
+          <div class="section-label mb-2">Panels (By Area)</div>  
+          <div id="order-panels-by-area" class="space-y-3"></div>
+          <div class="divider"></div>
+          <div class="text-xs text-slate-500">Total Panel Length: <strong id="totalPanelLF" class="text-slate-200">0′-0″</strong></div>  
+          <div class="text-right font-bold text-lime-400 mt-2">Subtotal: $<span id="panelSubtotal">0.00</span></div>  
+        </div>  
+        <div class="card-subtle p-4">  
+          <div class="section-label mb-2">Trim & Accessories</div>  
+          <div class="grid grid-cols-3 gap-y-2 text-xs text-slate-300"><div class="text-slate-400">Ridge Cap</div> <div>Qty: <span id="ridgeQty" class="text-white">0</span></div> <div class="text-right">$<span id="ridgeTotal">0.00</span></div><div class="text-slate-400">Eave Trim</div> <div>Qty: <span id="eaveQty" class="text-white">0</span></div> <div class="text-right">$<span id="eaveTotal">0.00</span></div><div class="text-slate-400">Rake Trim</div> <div>Qty: <span id="rakeQty" class="text-white">0</span></div> <div class="text-right">$<span id="rakeTotal">0.00</span></div><div class="text-slate-400">Valley</div>   <div>Qty: <span id="valleyQty" class="text-white">0</span></div> <div class="text-right">$<span id="valleyTotal">0.00</span></div></div>
+          <div class="divider"></div>
+          <div class="text-right font-bold text-lime-400">Subtotal: $<span id="trimSubtotal">0.00</span></div>  
+        </div>
+        <div class="p-4 rounded-lg bg-lime-900/20 border border-lime-500/30 text-right"><div class="text-sm text-lime-200">ESTIMATED TOTAL</div><div class="text-2xl font-black text-white">$<span id="grandTotal">0.00</span></div></div>  
+      </div>  
+    </section>  
+    
+    <section id="projects" class="page-section hidden">  
+      <div class="text-center mb-6">  
+        <span class="pill-soft-gold text-base glow-title px-4 py-1">PROJECT FILES</span>  
+      </div>  
+      <div class="card p-3 sm:p-5">
+        <div class="tab-group mb-5">
+          <div class="tab-btn active" data-tab="orderlists">Order Lists</div>
+          <div class="tab-btn" data-tab="estimates">Estimates</div>
+          <div class="tab-btn" data-tab="invoices">Invoices</div>
+        </div>
 
-            document.getElementById('result').innerText = 
-                "Total Metal Needed: " + total.toFixed(2) + " sq ft";
-        }
-    </script>
-</body>
+        <div id="tab-orderlists" class="tab-content">
+          <div class="text-center text-slate-500 py-8"><div class="text-4xl mb-2">📋</div><p class="text-sm">No saved order lists.</p></div>
+        </div>
+
+        <div id="tab-estimates" class="tab-content hidden">
+          <button class="btn-gold w-full mb-4">+ Create New Estimate</button>
+          
+          <div class="doc-container dark-mode">
+            <div class="p-4 border-b border-white/10 flex justify-between items-start">
+              <div>
+                <div class="text-lime-400 font-bold text-lg">ESTIMATE</div>
+                <div class="text-xs text-slate-400">#EST-2501</div>
+              </div>
+              <div class="text-right text-xs">
+                <div class="text-white font-bold">Jake Smith</div>
+                <div class="text-slate-400">Nov 27, 2025</div>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th class="text-center">Qty</th>
+                    <th class="text-right">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="font-bold text-white">Removal</div>
+                      <div class="text-[0.6rem] text-slate-400">Existing asphalt shingles</div>
+                    </td>
+                    <td class="text-center text-white">20 sq</td>
+                    <td class="text-right text-white">$2,000.00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="font-bold text-white">Underlayment</div>
+                      <div class="text-[0.6rem] text-slate-400">Synthetic Titanium UDL</div>
+                    </td>
+                    <td class="text-center text-white">4 rolls</td>
+                    <td class="text-right text-white">$400.00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="font-bold text-white">Ice & Water</div>
+                      <div class="text-[0.6rem] text-slate-400">High Temp Shield</div>
+                    </td>
+                    <td class="text-center text-white">2 rolls</td>
+                    <td class="text-right text-white">$300.00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="font-bold text-white">Metal Panels</div>
+                      <div class="text-[0.6rem] text-slate-400">26ga Standing Seam (Black)</div>
+                    </td>
+                    <td class="text-center text-white">1920 sf</td>
+                    <td class="text-right text-white">$5,760.00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="font-bold text-white">Ridge Cap</div>
+                      <div class="text-[0.6rem] text-slate-400">10' Standard Profile</div>
+                    </td>
+                    <td class="text-center text-white">5 pcs</td>
+                    <td class="text-right text-white">$250.00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="font-bold text-white">Gable Trim</div>
+                      <div class="text-[0.6rem] text-slate-400">Rakewall flashing</div>
+                    </td>
+                    <td class="text-center text-white">11 pcs</td>
+                    <td class="text-right text-white">$440.00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="font-bold text-white">Eave Trim</div>
+                      <div class="text-[0.6rem] text-slate-400">Drip edge</div>
+                    </td>
+                    <td class="text-center text-white">9 pcs</td>
+                    <td class="text-right text-white">$270.00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="font-bold text-white">Pipe Boots</div>
+                      <div class="text-[0.6rem] text-slate-400">High temp silicone</div>
+                    </td>
+                    <td class="text-center text-white">3 ea</td>
+                    <td class="text-right text-white">$105.00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="font-bold text-white">Fasteners</div>
+                      <div class="text-[0.6rem] text-slate-400">Pancake head screws (box)</div>
+                    </td>
+                    <td class="text-center text-white">2 box</td>
+                    <td class="text-right text-white">$90.00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="font-bold text-white">Disposal</div>
+                      <div class="text-[0.6rem] text-slate-400">Bin rental & dump fees</div>
+                    </td>
+                    <td class="text-center text-white">1 ea</td>
+                    <td class="text-right text-white">$600.00</td>
+                  </tr>
+                  <tr class="doc-total-row">
+                    <td colspan="2" class="text-right text-lime-400 uppercase text-xs pt-4">Grand Total</td>
+                    <td class="text-right text-white text-lg pt-4">$10,215.00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="p-4 border-t border-white/10 text-center">
+              <button class="btn-soft w-full justify-center text-xs">Download PDF</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-invoices" class="tab-content hidden">
+          <button class="btn-soft green w-full mb-4">+ Create New Invoice</button>
+          
+          <div class="doc-container dark-mode border border-lime-500/50">
+            <div class="p-4 border-b border-white/10 flex justify-between items-center bg-lime-900/20">
+              <div>
+                <div class="text-white font-bold text-lg">INVOICE</div>
+                <div class="text-xs text-lime-400">#INV-2501</div>
+              </div>
+              <div class="pill-soft-gold text-[0.6rem]">BALANCE DUE</div>
+            </div>
+
+            <div class="p-4 text-center">
+              <div class="text-xs text-slate-400 uppercase tracking-widest mb-1">Amount Due</div>
+              <div class="text-3xl font-black text-white">$5,107.50</div>
+              <div class="text-xs text-slate-500 mt-1">Due Date: Dec 15, 2025</div>
+            </div>
+
+            <div class="p-4 border-t border-white/10 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-300">Total Project</span>
+                <span class="text-white">$10,215.00</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-300">Deposit Paid (50%)</span>
+                <span class="text-lime-400">-$5,107.50</span>
+              </div>
+              <div class="divider"></div>
+              <div class="flex justify-between font-bold">
+                <span class="text-white">Remaining</span>
+                <span class="text-white">$5,107.50</span>
+              </div>
+            </div>
+
+            <div class="p-4">
+               <button class="btn-gold w-full justify-center">Mark as Paid</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>  
+
+    <section id="theme" class="page-section hidden">  
+      <div class="text-center mb-6">  
+        <span class="pill-soft-gold text-base glow-title px-4 py-1">VISUAL THEME</span>  
+      </div>  
+      <div class="card p-5 space-y-4">  
+        <p class="text-xs text-slate-400">Customize the glow and accent colors.</p>  
+        <div class="space-y-2"><label class="section-label">Primary Brand Green</label><input id="themeBrandGreen" type="color" class="green-input h-10"></div>  
+        <div class="space-y-2"><label class="section-label">Gold Accent</label><input id="themeBrandGold" type="color" class="green-input h-10"></div>  
+        <div class="space-y-2"><label class="section-label">App Background Depth</label><input id="themeBrandBg" type="color" class="green-input h-10"></div>  
+        <button id="resetTheme" class="btn-soft w-full justify-center mt-4">Reset to Default</button>  
+      </div>  
+    </section>  
+  
+    <section id="admin" class="page-section hidden">  
+      <div class="text-center mb-6">  
+        <span class="pill-soft-gold text-base glow-title px-4 py-1">ADMIN CONSOLE</span>  
+      </div>  
+      <div class="card p-5 space-y-6">  
+        <div class="card-subtle p-4 border border-lime-500/30">  
+          <h2 class="section-title mb-3 text-lime-300">Company Identity</h2>  
+          <div class="space-y-2 mb-4">
+            <label class="section-label">Company Logo</label>
+            <input id="admin-company-logo" type="file" accept="image/*" class="green-input">
+            <button id="admin-remove-logo" class="btn-soft w-full justify-center mt-2">Remove Logo</button>
+          </div>
+          <div class="space-y-2 mb-6">
+            <label class="section-label">Company Font</label>
+            <select id="admin-company-font" class="green-input">
+              <option value="Inter">Inter (Clean)</option>
+              <option value="Roboto">Roboto (Classic)</option>
+              <option value="Montserrat">Montserrat (Modern)</option>
+              <option value="Poppins">Poppins (Friendly)</option>
+              <option value="Black Ops One">Black Ops One (Your Font)</option>
+            </select>
+          </div>
+          <div class="space-y-2"><label class="section-label">Company Name</label><input id="admin-company-name" class="green-input" placeholder="Solid Metal Roofing"></div>  
+        </div>  
+        <div class="card-subtle p-4">  
+          <h2 class="section-title mb-3">Materials & Pricing</h2>  
+          <div class="grid gap-2">  
+             <input id="price-panel" class="green-input" placeholder="Panels ($ / linear ft)">  
+             <input id="price-ridge" class="green-input" placeholder="Ridge ($ / ft)">  
+             <input id="price-eave" class="green-input" placeholder="Eave ($ / ft)">  
+             <input id="price-rake" class="green-input" placeholder="Rake ($ / ft)">  
+             <input id="price-valley" class="green-input" placeholder="Valley ($ / ft)">  
+             <input id="price-screws" class="green-input" placeholder="Screws ($ / box)">  
+          </div>  
+        </div>  
+        <button id="savePricing" class="btn-gold mt-4">Save All Admin Settings</button>  
+      </div>  
+    </section>  
+    
+    <section id="clients" class="page-section hidden"><div class="card p-5">Client management coming later.</div></section>  
+    <section id="help" class="page-section hidden"><div class="card p-5">Default Admin PIN: <strong>1234</strong></div></section>  
+  
+  </main>  
+  
+  <div id="pinModal" class="menu-overlay hidden">  
+    <div class="card w-full max-w-sm p-6 space-y-4 m-4">  
+      <div class="text-center">  
+        <span class="section-label">Security</span>  
+        <h3 class="section-title">Enter Admin PIN</h3>  
+      </div>  
+      <input id="pinInput" type="password" inputmode="numeric" maxlength="4" class="green-input text-center text-xl tracking-widest" placeholder="••••">  
+      <div class="grid grid-cols-2 gap-3">  
+        <button id="pinCancel" class="btn-soft justify-center">Cancel</button>  
+        <button id="pinSubmit" class="btn-gold justify-center">Unlock</button>  
+      </div>  
+    </div>  
+  </div>
+  <script>  
+document.addEventListener("DOMContentLoaded",()=>{  
+  
+  const PRICING_KEY="MRCP_PRICING";  
+  const ADMIN_PIN_KEY="MRCP_ADMIN_PIN";  
+  const THEME_KEY="MRCP_THEME_VISUAL";  
+  const COMPANY_KEY="MRCP_COMPANY_INFO";
+  const COMPANY_LOGO_KEY="MRCP_COMPANY_LOGO";
+  
+  if(!localStorage.getItem(ADMIN_PIN_KEY)){  
+    localStorage.setItem(ADMIN_PIN_KEY,"1234");  
+  }  
+  
+  const DEFAULT_THEME={  
+    brandGreen: "#63A331",  
+    brandGold: "#facc15",  
+    brandBg: "#020617"  
+  };  
+  
+  const n=v=>Number.isFinite(+v)?+v:0;  
+  const setText=(id,v)=>{const e=document.getElementById(id); if(e)e.textContent=v};  
+  const setHTML=(id,v)=>{const e=document.getElementById(id); if(e)e.innerHTML=v};  
+  const getVal=(id)=>{const e=document.getElementById(id); return e ? e.value : ""};  
+  const setVal=(id,v)=>{const e=document.getElementById(id); if(e)e.value=v};  
+  
+  function fmtFtIn(feet){  
+    const totalIn=Math.round(n(feet)*12);  
+    const ft=Math.floor(totalIn/12);  
+    const inch=totalIn%12;  
+    return `${ft}′-${inch}″`;  
+  }  
+
+  /* =======================
+     COMPANY LOGO HELPERS
+  ======================= */
+  function setHeaderLogoFromStorage(){
+    const imgEl = document.getElementById("headerLogoImg");
+    const txtEl = document.getElementById("headerLogoText");
+    if(!imgEl || !txtEl) return;
+
+    const logo = localStorage.getItem(COMPANY_LOGO_KEY);
+    if(logo){
+      imgEl.src = logo;
+      imgEl.classList.remove("hidden");
+      txtEl.classList.add("hidden");
+    }else{
+      imgEl.removeAttribute("src");
+      imgEl.classList.add("hidden");
+      txtEl.classList.remove("hidden");
+    }
+  }
+
+  function storeLogoDataUrl(dataUrl){
+    localStorage.setItem(COMPANY_LOGO_KEY, dataUrl);
+    setHeaderLogoFromStorage();
+  }
+
+  function removeLogo(){
+    localStorage.removeItem(COMPANY_LOGO_KEY);
+    setHeaderLogoFromStorage();
+  }
+
+  async function fileToResizedDataURL(file, maxSize=256, quality=0.9){
+    return new Promise((resolve,reject)=>{
+      const reader = new FileReader();
+      reader.onload = ()=>{
+        const img = new Image();
+        img.onload = ()=>{
+          const w = img.width, h = img.height;
+          const scale = Math.min(1, maxSize / Math.max(w,h));
+          const cw = Math.max(1, Math.round(w*scale));
+          const ch = Math.max(1, Math.round(h*scale));
+          const canvas = document.createElement("canvas");
+          canvas.width = cw; canvas.height = ch;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, cw, ch);
+          let out;
+          try{ out = canvas.toDataURL("image/webp", quality); }
+          catch{ out = canvas.toDataURL("image/png"); }
+          resolve(out);
+        };
+        img.onerror = ()=>reject(new Error("Image load failed"));
+        img.src = reader.result;
+      };
+      reader.onerror = ()=>reject(new Error("File read failed"));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  /* =======================
+     COMPANY SETTINGS
+  ======================= */
+  function applyCompanyFont(fontName){
+    document.documentElement.style.setProperty("--company-font", `"${fontName}"`);
+  }
+
+  function loadCompanySettings(){  
+    const raw = localStorage.getItem(COMPANY_KEY);  
+    const data = raw ? JSON.parse(raw) : { name: "Solid Metal Roofing", font: "Inter" };  
+  
+    setText("headerCompanyName", data.name || "Solid Metal Roofing");  
+    const firstLetter = (data.name || "S").charAt(0).toUpperCase();  
+    setText("headerLogoText", firstLetter);  
+
+    applyCompanyFont(data.font || "Inter");
+
+    setVal("admin-company-name", data.name || "Solid Metal Roofing");  
+    setVal("admin-company-phone", data.phone || "");  
+    setVal("admin-company-email", data.email || "");  
+    setVal("admin-company-gst", data.gst || "");  
+    setVal("admin-company-license", data.license || "");  
+    setVal("admin-company-address", data.address || "");  
+    setVal("admin-pay-etransfer", data.etransfer || "");  
+    setVal("admin-pay-checks", data.checks || "");  
+    setVal("admin-terms-est", data.termsEst || "");  
+    setVal("admin-terms-inv", data.termsInv || "");
+    setVal("admin-company-font", data.font || "Inter");
+
+    setHeaderLogoFromStorage();
+  }  
+
+  /* =======================  
+     THEME ENGINE   
+  ======================= */  
+  function applyTheme(t){  
+    const r=document.documentElement;  
+    r.style.setProperty("--brand-green", t.brandGreen);  
+    r.style.setProperty("--brand-gold", t.brandGold);  
+    r.style.setProperty("--brand-bg", t.brandBg);  
+    r.style.setProperty("--brand-card", t.brandBg);   
+  }  
+  
+  function loadTheme(){  
+    try{  
+      const raw=localStorage.getItem(THEME_KEY);  
+      if(!raw) return {...DEFAULT_THEME};  
+      return {...DEFAULT_THEME,...JSON.parse(raw)};  
+    }catch{  
+      return {...DEFAULT_THEME};  
+    }  
+  }  
+  
+  function saveTheme(t){  
+    localStorage.setItem(THEME_KEY,JSON.stringify(t));  
+  }  
+  
+  function bindThemeUI(){  
+    const t=loadTheme();  
+    applyTheme(t);  
+  
+    const brandGreen=document.getElementById("themeBrandGreen");  
+    const brandGold=document.getElementById("themeBrandGold");  
+    const brandBg=document.getElementById("themeBrandBg");  
+    const reset=document.getElementById("resetTheme");  
+  
+    if(!brandGreen) return;  
+  
+    brandGreen.value=t.brandGreen;  
+    brandGold.value=t.brandGold;  
+    brandBg.value=t.brandBg;  
+  
+    const update=()=>{  
+      const next={  
+        brandGreen: brandGreen.value,  
+        brandGold: brandGold.value,  
+        brandBg: brandBg.value  
+      };  
+      applyTheme(next);  
+      saveTheme(next);  
+    };  
+  
+    [brandGreen, brandGold, brandBg].forEach(i=>{  
+      i.addEventListener("input",update);  
+      i.addEventListener("change",update);  
+    });  
+  
+    reset.onclick=()=>{  
+      applyTheme(DEFAULT_THEME);  
+      saveTheme({...DEFAULT_THEME});  
+      brandGreen.value=DEFAULT_THEME.brandGreen;  
+      brandGold.value=DEFAULT_THEME.brandGold;  
+      brandBg.value=DEFAULT_THEME.brandBg;  
+    };  
+  }  
+
+  /* =======================
+     ORDER LIST (Placeholder)
+  ======================= */
+  const PANEL_AREAS = [ { id: "Area 1", name: "Main Roof Section", cuts: [{ lengthFt: 21 + 2/12, qty: 20 }] } ];
+  const QTY={ ridge:50,eave:120,rake:80,valley:24, underlayment:6,screws:5 };  
+  
+  function wasteMultiplier(key,p){  
+    const s=n(p[key]);  
+    const f=n(p.waste);  
+    return 1+((s>0?s:f)||0)/100;  
+  }  
+  function pcs10(ft){ return Math.ceil(n(ft)/10); }  
+  function trimQtyLabel(ft){ return `<strong class="text-white">${pcs10(ft)} pcs</strong> <span class="text-slate-500">(${fmtFtIn(ft)})</span>`; }  
+
+  function renderPanelsByArea(){
+    const wrap = document.getElementById("order-panels-by-area");
+    if(!wrap) return;
+    wrap.innerHTML = "";
+    let grandLF = 0;
+    PANEL_AREAS.forEach(area=>{
+      let areaLF = 0;
+      const lines = area.cuts.map(c=>{
+        const lf = c.qty * c.lengthFt;
+        areaLF += lf; grandLF += lf;
+        return `<div class="flex items-center justify-between text-sm"><div class="text-slate-300"><span class="text-white font-mono">${c.qty}</span> panels @ <span class="text-lime-300">${fmtFtIn(c.lengthFt)}</span></div></div>`;
+      }).join("");
+      wrap.innerHTML += `<div class="rounded-xl border border-white/10 bg-white/5 p-3"><div class="flex items-center justify-between mb-2"><div><div class="text-xs uppercase tracking-widest text-slate-400">${area.id}</div><div class="text-sm font-semibold text-white">${area.name}</div></div></div><div class="space-y-1">${lines}</div></div>`;
+    });
+    setText("totalPanelLF", fmtFtIn(grandLF));
+    return grandLF;
+  }
+  
+  function renderOrderList(){  
+    const p=JSON.parse(localStorage.getItem(PRICING_KEY)||"{}");  
+    const totalLF = renderPanelsByArea() || 0;
+    const panelTotal = totalLF * n(p.panel) * wasteMultiplier("wasteSheeting",p);
+    setText("panelSubtotal", panelTotal.toFixed(2));
+    setHTML("ridgeQty",trimQtyLabel(QTY.ridge));  
+    setHTML("eaveQty",trimQtyLabel(QTY.eave));  
+    setHTML("rakeQty",trimQtyLabel(QTY.rake));  
+    setHTML("valleyQty",trimQtyLabel(QTY.valley));  
+    const tm=wasteMultiplier("wasteTrim",p);  
+    const ridge=QTY.ridge*n(p.ridge)*tm;  
+    const eave=QTY.eave*n(p.eave)*tm;  
+    const rake=QTY.rake*n(p.rake)*tm;  
+    const valley=QTY.valley*n(p.valley)*tm;  
+    setText("ridgeTotal",ridge.toFixed(2));  
+    setText("eaveTotal",eave.toFixed(2));  
+    setText("rakeTotal",rake.toFixed(2));  
+    setText("valleyTotal",valley.toFixed(2));  
+    const trimSub=ridge+eave+rake+valley;  
+    setText("trimSubtotal",trimSub.toFixed(2));  
+    setText("underQty",QTY.underlayment);  
+    setText("screwQty",QTY.screws);  
+    const cm=wasteMultiplier("wasteConsumables",p);  
+    const under=QTY.underlayment*n(p.underlayment)*cm;  
+    const screws=QTY.screws*n(p.screws)*tm;  
+    setText("underlaymentTotal",under.toFixed(2));  
+    setText("screwsTotal",screws.toFixed(2));  
+    setText("accessorySubtotal",(under+screws).toFixed(2));  
+    setText("grandTotal",(panelTotal+trimSub+under+screws).toFixed(2));  
+  }  
+  
+  /* =======================  
+     NAVIGATION  
+  ======================= */  
+  const pages=document.querySelectorAll(".page-section");  
+  const menu=document.getElementById("mobileMenu");  
+  const openMenuBtn = document.getElementById("openMenuBtn");  
+  const closeMenuBtn = document.getElementById("closeMenuBtn");  
+  
+  function showPage(id){  
+    pages.forEach(p=>p.classList.add("hidden"));  
+    document.getElementById(id)?.classList.remove("hidden");  
+    menu.classList.add("hidden");  
+    if(id==="orderlist") renderOrderList();  
+    if(id==="admin") loadCompanySettings();
+  }  
+  
+  document.querySelectorAll("[data-page]").forEach(b=>{  
+    b.onclick=()=>{  
+      if(b.dataset.page==="admin"){  
+        pinModal.classList.remove("hidden");  
+      }else{  
+        showPage(b.dataset.page);  
+      }  
+    };  
+  });  
+  
+  if(openMenuBtn) openMenuBtn.onclick=()=>menu.classList.remove("hidden");  
+  if(closeMenuBtn) closeMenuBtn.onclick=()=>menu.classList.add("hidden");  
+  
+  const pinSubmit = document.getElementById("pinSubmit");  
+  const pinCancel = document.getElementById("pinCancel");  
+  const pinInput = document.getElementById("pinInput");  
+  if(pinSubmit) {  
+      pinSubmit.onclick=()=>{  
+        if(pinInput.value===localStorage.getItem(ADMIN_PIN_KEY)){  
+          pinModal.classList.add("hidden"); showPage("admin"); pinInput.value = "";   
+        }else alert("Wrong PIN");  
+      };  
+  }  
+  if(pinCancel) pinCancel.onclick=()=>pinModal.classList.add("hidden");  
+
+  /* =======================
+     ADMIN LOGIC
+  ======================= */
+  const logoInput = document.getElementById("admin-company-logo");
+  const logoRemoveBtn = document.getElementById("admin-remove-logo");
+  const fontSelect = document.getElementById("admin-company-font");
+
+  if(logoInput){
+    logoInput.addEventListener("change", async ()=>{
+      const file = logoInput.files && logoInput.files[0];
+      if(!file) return;
+      try{
+        const dataUrl = await fileToResizedDataURL(file, 256, 0.9);
+        storeLogoDataUrl(dataUrl);
+        alert("Logo saved and applied to header.");
+      }catch(e){ alert("Logo upload failed."); }
+      finally{ logoInput.value = ""; }
+    });
+  }
+  if(logoRemoveBtn){
+    logoRemoveBtn.onclick = ()=>{ removeLogo(); alert("Logo removed."); };
+  }
+  if(fontSelect){
+    fontSelect.addEventListener("change", ()=>{ applyCompanyFont(fontSelect.value || "Inter"); });
+  }
+
+  const savePricingBtn = document.getElementById("savePricing");  
+  if(savePricingBtn) {  
+      savePricingBtn.onclick=()=>{  
+        localStorage.setItem(PRICING_KEY,JSON.stringify({  
+          panel:getVal("price-panel"), ridge:getVal("price-ridge"), eave:getVal("price-eave"), rake:getVal("price-rake"), valley:getVal("price-valley"),  
+          screws:getVal("price-screws")
+        }));  
+        localStorage.setItem(COMPANY_KEY, JSON.stringify({  
+            name: getVal("admin-company-name"), font: getVal("admin-company-font"),
+            phone: getVal("admin-company-phone"), email: getVal("admin-company-email"), gst: getVal("admin-company-gst"),  
+            license: getVal("admin-company-license"), address: getVal("admin-company-address"), etransfer: getVal("admin-pay-etransfer"),  
+            checks: getVal("admin-pay-checks"), termsEst: getVal("admin-terms-est"), termsInv: getVal("admin-terms-inv")  
+        }));  
+        loadCompanySettings(); alert("All settings saved!");  
+      };  
+  }  
+
+  /* =======================  
+     STORAGE TOGGLE LOGIC
+  ======================= */  
+  const storageBtn = document.getElementById("storageToggleBtn");
+  const storageText = document.getElementById("storageText");
+  let storageMode = 0; 
+
+  function updateStorageUI(){
+    if(!storageBtn || !storageText) return;
+    const isOnline = navigator.onLine;
+    if(!isOnline){
+      storageMode = 0; storageText.textContent = "LOCAL STORAGE"; storageBtn.className = "pill-storage local"; return;
+    }
+    if(storageMode === 1){
+      storageText.textContent = "CLOUD STORAGE"; storageBtn.className = "pill-storage cloud";
+    } else {
+      storageText.textContent = "LOCAL STORAGE"; storageBtn.className = "pill-storage local";
+    }
+  }
+  if(storageBtn){
+    storageBtn.onclick = () => {
+      if(!navigator.onLine){ alert("No internet connection."); return; }
+      storageMode = storageMode === 0 ? 1 : 0; updateStorageUI();
+    };
+  }
+  window.addEventListener('online', updateStorageUI);
+  window.addEventListener('offline', updateStorageUI);
+
+  /* =======================
+     PROJECT FILES TABS
+  ======================= */
+  const tabBtns = document.querySelectorAll(".tab-btn");
+  const tabContents = document.querySelectorAll(".tab-content");
+  tabBtns.forEach(btn => {
+    btn.onclick = () => {
+      tabBtns.forEach(b => b.classList.remove("active"));
+      tabContents.forEach(c => c.classList.add("hidden"));
+      btn.classList.add("active");
+      const targetId = "tab-" + btn.dataset.tab;
+      document.getElementById(targetId)?.classList.remove("hidden");
+    };
+  });
+
+  /* =======================
+     TOGGLE BTNS (VENTILATION)
+  ======================= */
+  const toggleBtns = document.querySelectorAll(".toggle-btn");
+  toggleBtns.forEach(btn => {
+    btn.onclick = (e) => {
+       // Simple group toggle behavior (siblings)
+       const siblings = e.target.parentNode.children;
+       for(let sib of siblings) sib.classList.remove("active");
+       e.target.classList.add("active");
+    };
+  });
+
+  /* =======================  
+     INIT  
+  ======================= */  
+  bindThemeUI();  
+  loadCompanySettings();  
+  updateStorageUI();  
+  showPage("dashboard");  
+});  
+</script>  
+</body>  
 </html>
